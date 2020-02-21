@@ -14,7 +14,7 @@ function clockInit() {
     ]
 
     createBasement(root, numbers);
-    synchronize(numbers);
+    clockEngine(numbers);
 }
 
 function createBasement(parent, imagesCollection) {
@@ -38,17 +38,38 @@ function createSectionUnit(parent, id, imagesCollection) {
     unit.setAttribute('alt', imagesCollection[0].alt);
 }
 
-function synchronize(imagesCollection) {
-    setItemImage('seconds__units', imagesCollection, getTimeItem('seconds', 'units'));
-    setItemImage('seconds__dozens', imagesCollection, getTimeItem('seconds', 'dozens'));
+function clockEngine(imagesCollection) {
+    synchronize(imagesCollection);
 
     setInterval(() => {
-        setItemImage('seconds__units', imagesCollection, getTimeItem('seconds', 'units'));
+        const secondsUnits = getTimeItem('seconds', 'units');
+        setItemImage('seconds__units', imagesCollection, secondsUnits);
+        
+        if (secondsUnits === 0) {
+            const secondsDozens = getTimeItem('seconds', 'dozens');
+            setItemImage('seconds__dozens', imagesCollection, secondsDozens);
+
+            if (secondsDozens === 0) {
+                const minutesUnits = getTimeItem('minutes', 'units');
+                setItemImage('minutes__units', imagesCollection, minutesUnits);
+
+                if (minutesUnits === 0) {
+                    const minutesDozens = getTimeItem('minutes', 'dozens');
+                    setItemImage('minutes__dozens', imagesCollection, minutesDozens);
+
+                    if (minutesDozens === 0) { 
+                        const hoursUnits = getTimeItem('hours', 'units');
+                        setItemImage('hours__units', imagesCollection, hoursUnits);
+
+                        if (hoursUnits === 0) {
+                            const hoursDozens = getTimeItem('hours', 'dozens');
+                            setItemImage('hours__dozens', imagesCollection, hoursDozens);
+                        }
+                    }
+                }
+            }
+        }
     }, 1000);
-
-    setInterval(() => {
-        setItemImage('seconds__dozens', imagesCollection, getTimeItem('seconds', 'dozens'));
-    }, 10000);
 }
 
 

@@ -53,3 +53,12 @@ function getRealSeconds(measurement) {
             return Math.floor(new Date().getSeconds() / 10);
     }
 }
+
+function synchronize(imagesCollection) {
+    setItemImage('seconds__units', imagesCollection, getTimeItem('seconds', 'units'));
+    setItemImage('seconds__dozens', imagesCollection, getTimeItem('seconds', 'dozens'));
+    setItemImage('minutes__units', imagesCollection, getTimeItem('minutes', 'units'));
+    setItemImage('minutes__dozens', imagesCollection, getTimeItem('minutes', 'dozens'));
+    setItemImage('hours__units', imagesCollection, getTimeItem('hours', 'units'));
+    setItemImage('hours__dozens', imagesCollection, getTimeItem('hours', 'dozens'));
+}
