@@ -39,6 +39,7 @@ function createSectionUnit(parent, id, imagesCollection) {
 }
 
 function clockEngine(imagesCollection) {
+    // Version 1
     synchronize(imagesCollection);
 
     setInterval(() => {
@@ -70,6 +71,44 @@ function clockEngine(imagesCollection) {
             }
         }
     }, 1000);
+
+    // Version 2
+    /*const time = synchronize(imagesCollection);
+
+    setInterval(() => {
+        time.secondsUnits = getTimeItem('seconds', 'units');
+        setItemImage('seconds__units', imagesCollection, time.secondsUnits);
+        
+        if (time.secondsUnits === 0) {
+            (time.secondsDozens < 5) ? time.secondsDozens++ : time.secondsDozens = 0;
+            setItemImage('seconds__dozens', imagesCollection, time.secondsDozens);
+
+            if (time.secondsDozens === 0) {
+                (time.minutesUnits < 9) ? time.minutesUnits++ : time.minutesUnits = 0;
+                setItemImage('minutes__units', imagesCollection, time.minutesUnits);
+
+                if (time.minutesUnits === 0) {
+                    (time.minutesDozens < 5) ? time.minutesDozens++ : time.minutesDozens = 0;
+                    setItemImage('minutes__dozens', imagesCollection, time.minutesDozens);
+
+                    if (time.minutesDozens === 0) {
+                        (time.hoursUnits < 9) ? time.hoursUnits++ : time.hoursUnits = 0;
+                        setItemImage('hours__units', imagesCollection, time.hoursUnits); 
+
+                        if (time.hoursUnits === 0) {
+                            (time.hoursDozens < 2) ? time.hoursDozens++ : time.hoursDozens = 0;
+                            setItemImage('hours__dozens', imagesCollection, time.hoursDozens); 
+                        }
+
+                        if (time.hoursDozens === 2 && time.hoursUnits === 4) {
+                            time.hoursUnits = 0;
+                            time.hoursDozens = 0;
+                            setItemImage('hours__units', imagesCollection, time.hoursUnits); 
+                            setItemImage('hours__dozens', imagesCollection, time.hoursDozens); 
+                        }
+                    }
+                }
+            }
+        }
+    }, 1000);*/
 }
-
-

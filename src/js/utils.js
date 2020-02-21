@@ -55,10 +55,21 @@ function getRealSeconds(measurement) {
 }
 
 function synchronize(imagesCollection) {
-    setItemImage('seconds__units', imagesCollection, getTimeItem('seconds', 'units'));
-    setItemImage('seconds__dozens', imagesCollection, getTimeItem('seconds', 'dozens'));
-    setItemImage('minutes__units', imagesCollection, getTimeItem('minutes', 'units'));
-    setItemImage('minutes__dozens', imagesCollection, getTimeItem('minutes', 'dozens'));
-    setItemImage('hours__units', imagesCollection, getTimeItem('hours', 'units'));
-    setItemImage('hours__dozens', imagesCollection, getTimeItem('hours', 'dozens'));
+    const time = {
+        hoursDozens: getTimeItem('hours', 'dozens'),
+        hoursUnits: getTimeItem('hours', 'units'),
+        minutesDozens: getTimeItem('minutes', 'dozens'),
+        minutesUnits: getTimeItem('minutes', 'units'),
+        secondsDozens: getTimeItem('seconds', 'dozens'),
+        secondsUnits: getTimeItem('seconds', 'units')
+    }
+
+    setItemImage('seconds__units', imagesCollection, time.secondsUnits);
+    setItemImage('seconds__dozens', imagesCollection, time.secondsDozens);
+    setItemImage('minutes__units', imagesCollection, time.minutesUnits);
+    setItemImage('minutes__dozens', imagesCollection, time.minutesDozens);
+    setItemImage('hours__units', imagesCollection, time.hoursUnits);
+    setItemImage('hours__dozens', imagesCollection, time.hoursDozens);
+
+    return time;
 }
