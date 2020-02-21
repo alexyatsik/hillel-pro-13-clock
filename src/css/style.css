@@ -13,3 +13,13 @@ body {
     justify-content: center;
     align-items: center;
 }
+
+#clock img {
+    width: 100px;
+    height: 200px;
+    padding: 2px;
+}
+
+#clock > div {
+    padding: 10px;
+}
