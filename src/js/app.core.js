@@ -27,8 +27,8 @@ function createSection(parent, sectionId, imagesCollection) {
     const section = createAndAppend(parent, 'div');
     section.setAttribute('id', sectionId);
 
-    createSectionUnit(section, `${sectionId}__dozens`, imagesCollection);
-    createSectionUnit(section, `${sectionId}__units`, imagesCollection);
+    createSectionUnit(section, `${sectionId}Dozens`, imagesCollection);
+    createSectionUnit(section, `${sectionId}Units`, imagesCollection);
 }
 
 function createSectionUnit(parent, id, imagesCollection) {
@@ -42,38 +42,26 @@ function clockEngine(imagesCollection) {
     const time = synchronize(imagesCollection);
 
     setInterval(() => {
-        (time.seconds.units < 9) ? time.seconds.units++ : time.seconds.units = 0;
-        setItemImage('seconds__units', imagesCollection, time.seconds.units);
+        (time[0].value < 9) ? time[0].value++ : time[0].value = 0;
+        setItemImage(time[0].key, imagesCollection, time[0].value);
 
-        if (time.seconds.units === 0) {
-            (time.seconds.dozens < 5) ? time.seconds.dozens++ : time.seconds.dozens = 0;
-            setItemImage('seconds__dozens', imagesCollection, time.seconds.dozens);
+        for (let i = 0; i < time.length; i++) {
+            const current = time[i];
+            const next = time[i + 1];
 
-            if (time.seconds.dozens === 0) {
-                (time.minutes.units < 9) ? time.minutes.units++ : time.minutes.units = 0;
-                setItemImage('minutes__units', imagesCollection, time.minutes.units);
+            if (current.key === 'hoursUnits' && next.value === 2 && current.value === 4) {
+                current.value = 0;
+                next.value = 0;
+                setItemImage(next.key, imagesCollection, next.value);
+                setItemImage(current.key, imagesCollection, current.value);
+                break;
+            }
 
-                if (time.minutes.units === 0) {
-                    (time.minutes.dozens < 5) ? time.minutes.dozens++ : time.minutes.dozens = 0;
-                    setItemImage('minutes__dozens', imagesCollection, time.minutes.dozens);
-
-                    if (time.minutes.dozens === 0) {
-                        (time.hours.units < 9) ? time.hours.units++ : time.hours.units = 0;
-                        setItemImage('hours__units', imagesCollection, time.hours.units); 
-
-                        if (time.hours.units === 0) {
-                            (time.hours.dozens < 2) ? time.hours.dozens++ : time.hours.dozens = 0;
-                            setItemImage('hours__dozens', imagesCollection, time.hours.dozens); 
-                        }
-
-                        if (time.hours.dozens === 2 && time.hours.units === 4) {
-                            time.hours.units = 0;
-                            time.hours.dozens = 0;
-                            setItemImage('hours__units', imagesCollection, time.hours.units); 
-                            setItemImage('hours__dozens', imagesCollection, time.hours.dozens); 
-                        }
-                    }
-                }
+            if (current.value === 0) {
+                (next.value === next.maxValue) ? next.value = 0 : next.value++;
+                setItemImage(next.key, imagesCollection, next.value);
+            } else {
+                break;
             }
         }
     }, 1000);

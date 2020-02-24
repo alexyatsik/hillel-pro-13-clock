@@ -16,66 +16,43 @@ function setItemImage(itemId, imagesCollection, number) {
     img.setAttribute('alt', imagesCollection[number].alt);
 }
 
-function getTimeItem(section, measurement) {
-    switch (section) {
-        case 'hours':
-            return getRealHours(measurement);
-        case 'minutes':
-            return getRealMinutes(measurement);
-        case 'seconds':
-            return getRealSeconds(measurement);
-    }
-}
-
-function getRealHours(measurement) {
-    switch (measurement) {
-        case 'units':
-            return Math.floor(new Date().getHours() % 10);
-        case 'dozens':
-            return Math.floor(new Date().getHours() / 10);
-    }
-}
-
-function getRealMinutes(measurement) {
-    switch (measurement) {
-        case 'units':
-            return Math.floor(new Date().getMinutes() % 10);
-        case 'dozens':
-            return Math.floor(new Date().getMinutes() / 10);
-    }
-}
-
-function getRealSeconds(measurement) {
-    switch (measurement) {
-        case 'units':
-            return Math.floor(new Date().getSeconds() % 10);
-        case 'dozens':
-            return Math.floor(new Date().getSeconds() / 10);
-    }
-}
-
 function synchronize(imagesCollection) {
-    const time = {
-        hours: {
-            dozens: getTimeItem('hours', 'dozens'),
-            units: getTimeItem('hours', 'units')
+    const time = [
+        { 
+            key: 'secondsUnits', 
+            value: Math.floor(new Date().getSeconds() % 10), 
+            maxValue: 9 
         },
-        minutes: {
-            dozens: getTimeItem('minutes', 'dozens'),
-            units: getTimeItem('minutes', 'units')
+        { 
+            key: 'secondsDozens', 
+            value: Math.floor(new Date().getSeconds() / 10), 
+            maxValue: 5  
         },
-        seconds: {
-            dozens: getTimeItem('seconds', 'dozens'),
-            units: getTimeItem('seconds', 'units')
-        }
-    }
+        { 
+            key: 'minutesUnits', 
+            value: Math.floor(new Date().getMinutes() % 10), 
+            maxValue: 9 
+        },
+        { 
+            key: 'minutesDozens', 
+            value: Math.floor(new Date().getMinutes() / 10), 
+            maxValue: 5 
+        },
+        { 
+            key: 'hoursUnits', 
+            value: Math.floor(new Date().getHours() % 10), 
+            maxValue: 9 
+        },
+        { 
+            key: 'hoursDozens', 
+            value: Math.floor(new Date().getHours() / 10), 
+            maxValue: 2 
+        },
+    ]
 
-    setItemImage('seconds__units', imagesCollection, time.seconds.units);
-    setItemImage('seconds__dozens', imagesCollection, time.seconds.dozens);
-    setItemImage('minutes__units', imagesCollection, time.minutes.units);
-    setItemImage('minutes__dozens', imagesCollection, time.minutes.dozens);
-    setItemImage('hours__units', imagesCollection, time.hours.units);
-    setItemImage('hours__dozens', imagesCollection, time.hours.dozens);
+    for (let i = 0; i < time.length; i++) {
+        setItemImage(time[i].key, imagesCollection, time[i].value);
+    }
 
     return time;
 }
